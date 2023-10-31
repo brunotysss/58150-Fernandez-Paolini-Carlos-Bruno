@@ -159,7 +159,7 @@ formulario.addEventListener("submit", function (event) {
         personasRegistradas.push(nuevaPersona);
 
         // Guarda la información en localStorage
-        localStorage.setItem('usuarioRegistrado', JSON.stringify(nuevaPersona));
+        sessionStorage.setItem('usuarioRegistrado', JSON.stringify(nuevaPersona));
 
         // Mostrar SweetAlert 2 para confirmación
         Swal.fire({
@@ -183,7 +183,7 @@ formulario.addEventListener("submit", function (event) {
 }
 // Actualiza el enlace en el navbar con el nombre del usuario
 const enlaceNavbar = document.getElementById("usuario-nav");
-const usuarioRegistrado = JSON.parse(localStorage.getItem('usuarioRegistrado'));
+const usuarioRegistrado = JSON.parse(sessionStorage.getItem('usuarioRegistrado'));
 
 if (enlaceNavbar && usuarioRegistrado) {
     enlaceNavbar.textContent = usuarioRegistrado.nombre;
