@@ -1,4 +1,45 @@
-  
+const tienda = new Tienda('3d dreams', 'balcarce 450', 4885548, baseDeDatos);
+const carrito = new Carrito([]);
+tienda.listarProductos(tienda.baseDeDatos);
+verificarLocalStorage(carrito);
+
+$(document).ready(function () {
+    btnComprarOnClic(carrito);
+    eventosBotones(carrito);
+});
+
+console.log(tienda.baseDeDatos);
+
+
+class Producto {
+    constructor(idProducto, nombreProducto, marcaProducto, categoria, descripcionProducto, precio, img, cantidad) {
+        this.idProducto = idProducto;
+        this.nombreProducto = nombreProducto;
+        this.marcaProducto = marcaProducto;
+        this.categoria = categoria;
+        this.descripcionProducto = descripcionProducto;
+        this.precio = precio;
+        this.img = img;
+        this.cantidad= cantidad || 1;
+    }
+    agregarCantidad(valor){
+        this.cantidad += valor
+    }
+    subTotal(){
+        return this.cantidad * this.precio;
+    }
+    vaciarCantidad(){
+        this.cantidad = 1;
+    }
+    modificarCantidad(valor){
+        this.cantidad = valor
+    }
+}
+
+
+
+
+
   
   // Objeto JavaScript con países de América Latina
   var paisesLatinoamerica = {
@@ -192,3 +233,101 @@ if (enlaceNavbar && usuarioRegistrado) {
 
 
 
+/* AGREGAR AL CARRITO Y MODIFICAR POR MEDIO DE MODALS */
+
+
+function btnComprarOnClic(carrito) {
+    let botones = document.getElementsByClassName('btnComprar');
+    for (const boton of botones) {
+        boton.onclick = function () {
+            let producto = tienda.buscarProductoPorId(boton.id);
+            carrito.agregarAlCarrito(producto);
+        }
+    }
+}
+
+function selectFiltroOnChange(carrito) {
+    let listasCategorias = document.querySelectorAll('.navbar-nav .nav-item.dropdown');
+
+    listasCategorias.forEach(lista => {
+        let enlaceCategoria = lista.querySelector('.nav-link');
+
+        enlaceCategoria.addEventListener('click', function (event) {
+            event.preventDefault(); // Evitar la acción predeterminada del enlace
+
+            let categoriaSeleccionada = enlaceCategoria.textContent.trim();
+            if (categoriaSeleccionada !== "Todas") {
+                tienda.filtrarProductoPorCategoria(categoriaSeleccionada, carrito);
+            } else {
+                tienda.listarProductos(tienda.baseDeDatos, carrito);
+            }
+        });
+    });
+}
+function verificarLocalStorage(carrito) {
+    if ('Carrito' in localStorage) {
+        const productosStorage = JSON.parse(localStorage.getItem("Carrito"));
+        for (const producto of productosStorage) {
+            const found = baseDeDatos.find(p => p.idProducto == producto.idProducto)
+            found.modificarCantidad(producto.cantidad)
+            carrito.productos.push(found);
+        }
+    } else {
+        carrito.productos = [];
+    }
+    let contadorCarrito = document.getElementById("contadorCarrito");
+    contadorCarrito.innerHTML = contadorCarritos();
+}
+
+function carritoOnClick(carrito) {
+    let btnCarrito = document.getElementById('btnCarrito')
+    btnCarrito.onclick = function () {
+        carrito.listarProductos(carrito)
+    }
+}
+
+function VaciarCarritoOnClick(carrito) {
+    let btnVaciar = document.getElementById('btnVaciarCarrito')
+    btnVaciar.onclick = function () {
+        localStorage.clear();
+        for (const producto of carrito.productos) {
+            producto.vaciarCantidad()
+        }
+        carrito.productos = [];
+        let contadorCarrito = document.getElementById("contadorCarrito");
+        contadorCarrito.innerHTML = 0;
+        carrito.listarProductos();
+
+    }
+}
+
+function eventosBotones(carrito) {
+    selectFiltroOnChange(carrito);
+    carritoOnClick(carrito);
+    VaciarCarritoOnClick(carrito);
+}
+
+$("#btnFinalizar").click(enviarEmail);
+
+function enviarEmail(e) {
+    e.preventDefault();
+    $.post("https://jsonplaceholder.typicode.com/posts", JSON.stringify(carrito.productos), function (respuesta, estado) {
+        if (estado == "success") {
+            $("#alertCompra").fadeIn(2000).fadeOut(2000);
+            localStorage.clear();
+            for (const producto of carrito.productos) {
+                producto.vaciarCantidad()
+            }
+            carrito.productos = [];
+            let contadorCarrito = document.getElementById("contadorCarrito");
+            contadorCarrito.innerHTML = 0;
+            carrito.listarProductos();
+        }
+    });
+}
+
+// Agrega la siguiente línea para inicializar la funcionalidad al cargar la página
+document.addEventListener('DOMContentLoaded', function () {
+    eventosBotones(carrito);
+    // Puedes agregar más inicializaciones si es necesario
+});
