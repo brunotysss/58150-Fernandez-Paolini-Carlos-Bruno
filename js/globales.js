@@ -1,11 +1,18 @@
 const baseDeDatos = [];
-$.get("../data/productos/productos.json", function(respuesta,estado){
-    if(estado=="success"){
-        for (const generico of respuesta) {
+
+fetch("../data/productos/productos.json")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error en la carga de los datos");
+        }
+        return response.json();
+    })
+    .then(data => {
+        for (const generico of data) {
             baseDeDatos.push(new Producto(generico.idProducto, generico.nombreProducto, generico.marcaProducto, generico.categoria, generico.descripcionProducto, generico.precio, generico.img));
         }
-    }else{
-        console.log("Error en la carga de los datos");
-    } 
-    tienda.listarProductos(tienda.baseDeDatos);
-})
+        tienda.listarProductos(baseDeDatos);
+    })
+    .catch(error => {
+        console.error(error);
+    });
