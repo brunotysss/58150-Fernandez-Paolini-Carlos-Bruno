@@ -2,15 +2,18 @@ const tienda = new Tienda('3d dreams', 'balcarce 450', 4885548, baseDeDatos);
 const carrito = new Carrito([]);
 tienda.listarProductos(tienda.baseDeDatos);
 verificarLocalStorage(carrito);
-
+btnComprarOnClic(carrito);
+eventosBotones(carrito);
 $(document).ready(function () {
     btnComprarOnClic(carrito);
     eventosBotones(carrito);
+
+    
 });
 
 console.log(tienda.baseDeDatos);
 
-
+console.log("Instancia de Tienda en main.js:", tienda);
 class Producto {
     constructor(idProducto, nombreProducto, marcaProducto, categoria, descripcionProducto, precio, img, cantidad) {
         this.idProducto = idProducto;
@@ -129,7 +132,7 @@ if (document.getElementById("pais") && document.getElementById("provincia")) {
 
     function mostrarProvincias() {
         var paisSelect = document.getElementById("pais");
-        var provinciaSelect = document.getElementById("provincia");
+        var provinciaSelect = document.ById("provincia");
         var selectedCountry = paisSelect.value;
 
         // Habilita el select de provincias si se ha seleccionado un país
@@ -235,9 +238,8 @@ if (enlaceNavbar && usuarioRegistrado) {
 
 /* AGREGAR AL CARRITO Y MODIFICAR POR MEDIO DE MODALS */
 
-
 function btnComprarOnClic(carrito) {
-    let botones = document.getElementsByClassName('btnComprar');
+    let botones = document.querySelectorAll('.product-grid .btnComprar');
     for (const boton of botones) {
         boton.onclick = function () {
             let producto = tienda.buscarProductoPorId(boton.id);
@@ -246,24 +248,27 @@ function btnComprarOnClic(carrito) {
     }
 }
 
-function selectFiltroOnChange(carrito) {
-    let listasCategorias = document.querySelectorAll('.navbar-nav .nav-item.dropdown');
-
-    listasCategorias.forEach(lista => {
-        let enlaceCategoria = lista.querySelector('.nav-link');
-
-        enlaceCategoria.addEventListener('click', function (event) {
-            event.preventDefault(); // Evitar la acción predeterminada del enlace
-
-            let categoriaSeleccionada = enlaceCategoria.textContent.trim();
-            if (categoriaSeleccionada !== "Todas") {
-                tienda.filtrarProductoPorCategoria(categoriaSeleccionada, carrito);
-            } else {
-                tienda.listarProductos(tienda.baseDeDatos, carrito);
-            }
+    function selectFiltroOnChange(carrito) {
+        let listasCategorias = document.querySelectorAll('.navbar-nav .nav-item.dropdown');
+    
+        listasCategorias.forEach(lista => {
+            let enlaceCategoria = lista.querySelector('.nav-link');
+    
+            enlaceCategoria.addEventListener('click', function (event) {
+                event.preventDefault();
+    
+                // Cambios aquí
+                let categoriaSeleccionada = enlaceCategoria.textContent.trim();
+                console.log("Categoría seleccionada:", categoriaSeleccionada);
+    
+                if (categoriaSeleccionada !== "Todas") {
+                    tienda.filtrarProductoPorCategoria(categoriaSeleccionada, carrito);
+                } else {
+                    tienda.listarProductos(tienda.baseDeDatos, carrito);
+                }
+            });
         });
-    });
-}
+    }
 function verificarLocalStorage(carrito) {
     if ('Carrito' in localStorage) {
         const productosStorage = JSON.parse(localStorage.getItem("Carrito"));
@@ -274,13 +279,15 @@ function verificarLocalStorage(carrito) {
         }
     } else {
         carrito.productos = [];
-    }
+    } 
     let contadorCarrito = document.getElementById("contadorCarrito");
     contadorCarrito.innerHTML = contadorCarritos();
 }
 
 function carritoOnClick(carrito) {
     let btnCarrito = document.getElementById('btnCarrito')
+    console.log("asdasd", btnCarrito);
+    console.log("asdasd", carrito);
     btnCarrito.onclick = function () {
         carrito.listarProductos(carrito)
     }
@@ -329,5 +336,8 @@ function enviarEmail(e) {
 // Agrega la siguiente línea para inicializar la funcionalidad al cargar la página
 document.addEventListener('DOMContentLoaded', function () {
     eventosBotones(carrito);
+    console.log("Página cargada");
     // Puedes agregar más inicializaciones si es necesario
 });
+
+

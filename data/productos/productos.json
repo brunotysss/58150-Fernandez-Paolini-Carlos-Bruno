@@ -30,7 +30,7 @@
     "idProducto": 4, 
     "nombreProducto": "Maceta espiral,escalera", 
     "marcaProducto": "Maceta escalera",  
-    "categoria": "Jardin", 
+    "categoria": "Jardín", 
     "descripcionProducto": "Excelente maceta para darle estilo a tu jardin ", 
     "precio": 20000, 
     "img": "pot-espiral-escalera.webp" 
@@ -39,7 +39,7 @@
     "idProducto": 5, 
     "nombreProducto": "Maceta efecto espiral", 
     "marcaProducto": "Maceta espiral", 
-    "categoria": "Jardin", 
+    "categoria": "Jardín", 
     "descripcionProducto": "Excelente maceta para darle estilo a tu jardin ", 
     "precio": 2000, 
     "img": "pot-spiral.webp" 
@@ -48,7 +48,7 @@
     "idProducto": 6, 
     "nombreProducto": "Maceta casa", 
     "marcaProducto": "Maceta casa", 
-    "categoria": "Jardin", 
+    "categoria": "Jardín", 
     "descripcionProducto": "Excelente maceta para darle estilo a tu jardin  ", 
     "precio": 2300, 
     "img": "pot-suculenta.webp" 
@@ -57,7 +57,7 @@
     "idProducto": 7, 
     "nombreProducto": "Maceta dragon", 
     "marcaProducto": "Maceta dragon", 
-    "categoria": "Jardin", 
+    "categoria": "Jardín", 
     "descripcionProducto": "Excelente maceta para darle estilo a tu jardin ", 
     "precio": 4200, 
     "img": "pot_dragon.webp" 
@@ -66,7 +66,7 @@
     "idProducto": 8, 
     "nombreProducto": "caja toalla descartable", 
     "marcaProducto": "caja gato", 
-    "categoria": "banio", 
+    "categoria": "Baño", 
     "descripcionProducto": "Excelente para el banio", 
     "precio": 6000, 
     "img": "tissue box.webp" 
@@ -75,7 +75,7 @@
     "idProducto": 9, 
     "nombreProducto": "Porta banio", 
     "marcaProducto": "porta banio", 
-    "categoria": "banio", 
+    "categoria": "Baño", 
     "descripcionProducto": "Excelente para el banio para guardar tus cepillos de diente ", 
     "precio": 4200, 
     "img": "toothbrush-holder.webp" 
@@ -84,7 +84,7 @@
     "idProducto": 10, 
     "nombreProducto": "Porta cotonetes y toallita", 
     "marcaProducto": "Porta cotonete", 
-    "categoria": "banio", 
+    "categoria": "Baño", 
     "descripcionProducto": "Excelente para guardar tus cotonetes y toallita ",  
     "precio": 4200, 
     "img": "holder-pad-tips.webp" 
