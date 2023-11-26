@@ -5,17 +5,20 @@ class Carrito {
 
     agregarAlCarrito(producto) {
         const idProducto = producto.idProducto;
-        const existe = this.productos.find(producto => producto.idProducto == idProducto)
-        if (existe == undefined) {
-            this.productos.push(producto);
+        const existeIndex = this.productos.findIndex(p => p.idProducto === idProducto);
+    
+        if (existeIndex === -1) {
+            // Si el producto no está en el carrito, agregarlo con cantidad 1
+            this.productos.push({ ...producto, cantidad: 1 });
         } else {
-            producto.agregarCantidad(1);
+            // Si el producto ya está en el carrito, aumentar la cantidad
+            this.productos[existeIndex].cantidad++;
         }
+    
         localStorage.setItem('Carrito', JSON.stringify(this.productos));
         let contadorCarrito = document.getElementById("contadorCarrito");
         contadorCarrito.innerHTML = contadorCarritos();
     }
-
     totalCarrito() {
         let total = 0;
         for (const producto of this.productos) {
